@@ -1,0 +1,212 @@
+# import streamlit as st
+# from engine import screening_agent, risk_band_agent
+# from reasoning_agent import reasoning_agent
+# from audit_agent import log_screening
+# from firebase_admin import firestore
+
+
+# st.set_page_config(
+#     page_title="RakshakPay",
+#     page_icon="🛡️",
+#     layout="wide"
+# )
+
+# st.markdown("""
+# <style>
+# .block-container {
+#     padding-top: 1rem;
+# }
+
+# .rp-header {
+#     font-size: 32px;
+#     font-weight: 700;
+# }
+
+# .rp-card {
+#     padding: 20px;
+#     border-radius: 14px;
+#     background: white;
+#     box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+# }
+
+# .green { color: #0f9d58; font-weight: 700; }
+# .amber { color: #f9ab00; font-weight: 700; }
+# .red   { color: #d93025; font-weight: 700; }
+# </style>
+# """, unsafe_allow_html=True)
+
+
+# st.set_page_config(page_title="RakshakPay", layout="centered")
+
+# # st.title("🛡️ RakshakPay – Pre-Payment Risk Shield")
+# st.markdown("<div class='rp-header'>🛡️ RakshakPay</div>", unsafe_allow_html=True)
+
+# tab_dashboard, tab_screening, tab_history = st.tabs(
+#     ["📊 Dashboard", "🔍 Vendor Screening", "📁 Transaction History"]
+# )
+
+
+# # beneficiary = st.text_input("Beneficiary / Vendor Name")
+# # country = st.text_input("Country")
+# # purpose = st.text_area("Payment Purpose")
+
+# # if st.button("Screen Payment"):
+# #     matches = screening_agent(beneficiary, country)
+# #     band, score = risk_band_agent(matches)
+# #     from reasoning_agent import reasoning_agent
+# #     from audit_agent import log_screening
+
+# #     explanation = reasoning_agent(matches, band)
+
+# #     log_screening({
+# #         "beneficiary": beneficiary,
+# #         "country": country,
+# #         "risk_band": band,
+# #         "matches": matches,
+# #         "explanation": explanation
+# #     })
+
+
+# #     st.subheader(f"Risk Status: {band}")
+
+# #     if band == "GREEN":
+# #         st.success("Low risk detected. Payment can proceed.")
+# #     elif band == "AMBER":
+# #         st.warning("Potential risk detected. Verification recommended.")
+# #     else:
+# #         st.error("High risk detected. Payment should be held.")
+
+# #     st.write("### Match Details")
+# #     st.json(matches)
+
+    
+# #     st.write("### AI Agent Explanation")
+# #     st.subheader("AI Reasoning Summary")
+# #     for line in explanation["reasoning_summary"]:
+# #         st.write("•", line)
+
+# #     st.subheader("Decision Rationale")
+# #     st.write(explanation["decision_rationale"])
+
+# #     st.subheader("Confidence Assessment")
+# #     st.write(explanation["confidence_assessment"])
+
+# #     st.subheader("Recommended Actions")
+# #     for action in explanation["recommended_actions"]:
+# #         st.write("•", action)
+
+# #     st.subheader("Counterfactual Analysis")
+# #     st.write(explanation["counterfactual_analysis"])
+
+
+
+# with tab_dashboard:
+#     st.subheader("Overview")
+
+#     col1, col2, col3 = st.columns(3)
+
+#     col1.markdown("""
+#     <div class='rp-card'>
+#         <h3 class='green'>15</h3>
+#         <p>Safe Transactions</p>
+#     </div>
+#     """, unsafe_allow_html=True)
+
+#     col2.markdown("""
+#     <div class='rp-card'>
+#         <h3 class='amber'>7</h3>
+#         <p>Amber Alerts</p>
+#     </div>
+#     """, unsafe_allow_html=True)
+
+#     col3.markdown("""
+#     <div class='rp-card'>
+#         <h3 class='red'>3</h3>
+#         <p>High Risk Flags</p>
+#     </div>
+#     """, unsafe_allow_html=True)
+
+#     st.markdown(
+#     "<br><b>➡ Go to the <span style='color:#d93025'>Vendor Screening</span> tab to screen a new payment.</b>",
+#     unsafe_allow_html=True
+# )
+
+
+
+# with tab_screening:
+#     st.markdown(
+#     "<div style='padding:12px 0; font-size:20px; font-weight:600;'>🔍 Screen a New Vendor Payment</div>",
+#     unsafe_allow_html=True
+# )
+
+#     st.subheader("Vendor Payment Screening")
+#     beneficiary = st.text_input("Beneficiary / Vendor Name")
+#     country = st.text_input("Country")
+#     purpose = st.text_area("Payment Purpose")
+
+# if st.button("Screen Payment"):
+
+#     matches = screening_agent(beneficiary, country)
+#     band, score = risk_band_agent(matches)
+
+#     explanation = reasoning_agent(matches, band)
+
+#     log_screening({
+#         "beneficiary": beneficiary,
+#         "country": country,
+#         "risk_band": band,
+#         "matches": matches,
+#         "explanation": explanation
+#     })
+
+#     # Status banner
+#     if band == "GREEN":
+#         st.success("🟢 Safe to Pay")
+#     elif band == "AMBER":
+#         st.warning("🟠 Risk Alert – Verification Required")
+#     else:
+#         st.error("🔴 High Risk – Payment Should Be Held")
+
+#     # Match details
+#     st.markdown("### Match Details")
+#     st.json(matches)
+
+#     # AI explanation (THIS IS WHAT YOU WERE MISSING)
+#     st.markdown("### AI Agent Explanation")
+
+#     st.subheader("AI Reasoning Summary")
+#     for line in explanation["reasoning_summary"]:
+#         st.write("•", line)
+
+#     st.subheader("Decision Rationale")
+#     st.write(explanation["decision_rationale"])
+
+#     st.subheader("Confidence Assessment")
+#     st.write(explanation["confidence_assessment"])
+
+#     st.subheader("Recommended Actions")
+#     for action in explanation["recommended_actions"]:
+#         st.write("•", action)
+
+#     st.subheader("Counterfactual Analysis")
+#     st.write(explanation["counterfactual_analysis"])
+
+    
+
+
+# with tab_history:
+#     st.subheader("Transaction Screening History")
+
+#     db = firestore.client()
+#     records = db.collection("screenings").limit(20).stream()
+
+#     rows = []
+#     for r in records:
+#         d = r.to_dict()
+#         rows.append({
+#             "Vendor": d.get("beneficiary"),
+#             "Country": d.get("country"),
+#             "Risk": d.get("risk_band")
+#         })
+
+#     st.dataframe(rows, use_container_width=True)
